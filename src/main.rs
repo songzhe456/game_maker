@@ -1,7 +1,7 @@
 mod func;
 
 pub use crate::func::exit_codes;
-use std::{fs::{self}, io::ErrorKind, process};
+use std::process;
 
 //程序名称
 const NAME : &str = "game maker";
@@ -16,14 +16,9 @@ fn main() {
     std::io::stdin()
     .read_line(&mut input)
     .expect("读取失败");
-    //读到继续后会创建新文件夹用于存放相关文件
+
     if input.trim() == "继续"{
-        let game_dir = fs::create_dir("game");
-        match game_dir {
-            Ok(_d) => println!("文件夹创建成功!"),
-            Err(e) if e.kind() != ErrorKind::AlreadyExists=> println!("{:?}文件夹创建失败!",e),
-            Err(_a) => println!("文件已存在"),
-        }
+        println!("抱歉，程序无法继续，因为后面还没做");
         end_program(exit_codes::ExitCodes::SUCCESS as i32);
     }
 }
