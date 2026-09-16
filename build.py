@@ -1,3 +1,3 @@
 import subprocess
 
-subprocess.Popen(["cargo","build"]).communicate()
+subprocess.Popen(["cargo","build","--release"]).communicate()
