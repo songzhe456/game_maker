@@ -1,3 +1,6 @@
+mod func;
+
+pub use crate::func::exit_codes;
 use std::process;
 
 //程序名称
@@ -16,7 +19,7 @@ fn main() {
 
     if input.trim() == "继续"{
         println!("抱歉，程序无法继续，因为后面还没做");
-        end_program(0);
+        end_program(exit_codes::ExitCodes::SUCCESS as i32);
     }
 }
 
