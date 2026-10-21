@@ -1,7 +1,7 @@
 mod func;
 
 pub use crate::func::exit_codes;
-use std::{fs, io::ErrorKind, process};
+use std::{fs, io::ErrorKind, process::{self, Command}};
 
 //程序名称
 const NAME : &str = "game maker";
@@ -15,15 +15,45 @@ fn main() {
     println!("请输入{LEFT_CN_QUOTE}继续{RIGHT_CN_QUOTE}");
     //读取用户输入，如果读到"继续"，会继续流程
     get_input();
+    create_game_file();
+    write_content("print(\"Hello World!\")");
+    run_game();
     end_program(exit_codes::ExitCodes::SUCCESS as i32);
+}
+
+fn create_game_file(){
+    let game_file = fs::File::create("game/hello_world.py");
+    match game_file {
+        Ok(_f) => println!("文件创建成功"),
+        Err(e) if e.kind() != ErrorKind::AlreadyExists => println!("文件创建失败"),
+        Err(_a) => println!("文件已存在"),
+    }
+}
+
+fn write_content(content:&str){
+    let game_file = fs::write("game/hello_world.py", content);
+    match game_file {
+        Ok(_f) => println!("写入成功"),
+        Err(err) => println!("写入失败：{:?}",err),
+    }
+}
+
+fn run_game(){
+    let output = Command::new("python")
+    .arg("game/hello_world.py")
+    .output()
+    .expect("运行失败");
+
+    let output_str = String::from_utf8_lossy(&output.stdout);
+    println!("{:?}",output_str);
 }
 
 fn create_game_dir(){
     let game_dir = fs::create_dir("game");
     match game_dir {
         Ok(_d) => println!("文件夹创建成功!"),
-        Err(e) if e.kind() != ErrorKind::AlreadyExists=> println!("{e}文件夹创建失败!"),
-        Err(_a) => println!("文件已存在"),
+        Err(e) if e.kind() != ErrorKind::AlreadyExists => println!("{e}文件夹创建失败!"),
+        Err(_a) => println!("文件夹已存在"),
     }
 }
 
