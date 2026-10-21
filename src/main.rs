@@ -57,7 +57,7 @@ fn run_game(){
     .expect("运行失败");
 
     let output_str = String::from_utf8_lossy(&output.stdout);
-    println!("{:?}",output_str);
+    println!("{output_str}");
 }
 
 fn create_game_dir(){
