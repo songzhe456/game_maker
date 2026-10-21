@@ -1,3 +1,4 @@
 pub enum ExitCodes{
-    SUCCESS = 0
+    SUCCESS = 0,
+    FAILED = 1,
 }
